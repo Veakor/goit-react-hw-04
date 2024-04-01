@@ -2,7 +2,7 @@ import style from './ImageGalery.module.css';
 
 const ImageGallery = ({ images }) => {
     if (!images || images.length === 0) {
-      return <div>No images found.</div>;
+      return <div>No images found</div>;
     }
     return (
       <ul className={style.ImageGallery}>
