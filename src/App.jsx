@@ -1,11 +1,11 @@
 import  { useState } from 'react';
 import axios from 'axios';
-import {Loader} from 'react-hot-toast';
 import SearchBar from './components/SearchBar/SearchBar';
 import ImageGallery from './components/ImageGallery/ImageGallery';
 import LoaderComponent from './components/Loader/LoaderComponent';
 import LoadMoreBtn from './components/LoadMoreBtn/LoadMoreBtn';
 import ErrorMessage from './components/ErrorMessage/ErrorMessage';
+import ImageModal from './components/ImageModal/ImageModal'
 
 const App = () => {
   const [images, setImages] = useState([]);
@@ -38,7 +38,7 @@ const App = () => {
     {error && <ErrorMessage message={error} />}
     {images.length > 0 && <ImageGallery images={images} />}
     {images.length > 0 && <LoadMoreBtn />}
-    {images.length > 0 && <ImageModal />} {/* Предполагаемое использование компонента ImageModal */}
+    {images.length > 0 && <ImageModal />}
   </div>
   );
 };
