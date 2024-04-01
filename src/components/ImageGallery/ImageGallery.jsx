@@ -5,7 +5,7 @@ const ImageGallery = ({ images, onImageClick }) => {
       return <div>No images found</div>;
     }
     return (
-      <div className {style.imageGallery}>
+      <div className={style.imageGallery}>
     
       {images.map((image, index) => (
         <img

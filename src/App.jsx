@@ -22,6 +22,9 @@ const App = () => {
           Authorization: 'Client-ID qGnIJ82TK4aWAvZ_LXe10mkMvKrzLj-ANSCPrgtH1cY', 
         },
       });
+      
+
+    console.log('Response data:', response.data);
 
       setImages(response.data.results);
       setLoading(false);
