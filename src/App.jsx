@@ -11,17 +11,17 @@ const App = () => {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-
-
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleSubmit = async (searchTerm) => {
     try {
+      setLoading(true);
       const response = await axios.get(`https://api.unsplash.com/search/photos?query=${searchTerm}`, {
         headers: {
           Authorization: 'Client-ID qGnIJ82TK4aWAvZ_LXe10mkMvKrzLj-ANSCPrgtH1cY', 
         },
       });
-
 
       setImages(response.data.results);
       setLoading(false);
@@ -31,15 +31,33 @@ const App = () => {
       setLoading(false);
     }
   };
+
+  const handleImageClick = (imageUrl, alt) => {
+    setSelectedImage({ imageUrl, alt });
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedImage(null);
+  };
+
   return (
     <div>
-    <SearchBar onSubmit={handleSubmit} />
-    {loading && <LoaderComponent />}
-    {error && <ErrorMessage message={error} />}
-    {images.length > 0 && <ImageGallery images={images} />}
-    {images.length > 0 && <LoadMoreBtn />}
-    {images.length > 0 && <ImageModal />}
-  </div>
+      <SearchBar onSubmit={handleSubmit} />
+      {loading && <LoaderComponent />}
+      {error && <ErrorMessage message={error} />}
+      {images.length > 0 && <ImageGallery images={images} onImageClick={handleImageClick} />}
+      {images.length > 0 && <LoadMoreBtn />}
+      {isModalOpen && selectedImage && (
+        <ImageModal 
+          isOpen={isModalOpen} 
+          onRequestClose={closeModal} 
+          imageUrl={selectedImage.imageUrl} 
+          alt={selectedImage.alt} 
+        />
+      )}
+    </div>
   );
 };
 

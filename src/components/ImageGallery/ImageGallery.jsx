@@ -1,19 +1,21 @@
-import style from './ImageGalery.module.css';
+import style from './ImageGallery.module.css';
 
-const ImageGallery = ({ images }) => {
+const ImageGallery = ({ images, onImageClick }) => {
     if (!images || images.length === 0) {
       return <div>No images found</div>;
     }
     return (
-      <ul className={style.ImageGallery}>
-        {images.map(image => (
-          <li key={image.id} className={style.ImageGalleryItem}>
-            <div>
-            <img src={image.urls.small} alt={image.alt_description || 'Image'} />
-            </div>
-          </li>
-        ))}
-      </ul>
+      <div className {style.imageGallery}>
+    
+      {images.map((image, index) => (
+        <img
+          key={index}
+          src={image.imageUrl}  
+          alt={image.alt}     
+          onClick={() => onImageClick(image.imageUrl, image.alt)}
+        />
+      ))}
+    </div>
     );
   };
   
