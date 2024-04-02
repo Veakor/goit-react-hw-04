@@ -13,6 +13,7 @@ const App = () => {
   const [error, setError] = useState('');
   const [selectedImage, setSelectedImage] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  
 
   const handleSubmit = async (searchTerm) => {
     try {
@@ -35,6 +36,8 @@ const App = () => {
     }
   };
 
+
+
   const handleImageClick = (imageUrl, alt) => {
     setSelectedImage({ imageUrl, alt });
     setIsModalOpen(true);
@@ -45,13 +48,19 @@ const App = () => {
     setSelectedImage(null);
   };
 
+  const handleLoadMore = () => {
+    setPage(prevPage => prevPage + 1); 
+  };
+
+  
+
   return (
     <div>
       <SearchBar onSubmit={handleSubmit} />
       {loading && <LoaderComponent />}
       {error && <ErrorMessage message={error} />}
       {images.length > 0 && <ImageGallery images={images} onImageClick={handleImageClick} />}
-      {images.length > 0 && <LoadMoreBtn />}
+      <LoadMoreBtn onClick={handleLoadMore} hasMoreImages={images.length > 0} />
       {isModalOpen && selectedImage && (
         <ImageModal 
           isOpen={isModalOpen} 
