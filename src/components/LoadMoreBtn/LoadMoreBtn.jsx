@@ -6,8 +6,6 @@ const LoadMoreBtn = ({ onClick, hasMoreImages }) => {
         return null; 
     }
 
-
-
     return (
         <button className={style.loadMoreButton} onClick={onClick}>Load more</button>
     );

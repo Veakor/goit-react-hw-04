@@ -20,7 +20,7 @@ const App = () => {
   const fetchImages = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`https://api.unsplash.com/search/photos?query=${searchTerm}`, {
+      const response = await axios.get(`https://api.unsplash.com/search/photos?query=${searchTerm}&page=${page}`, {
         headers: {
           Authorization: 'Client-ID qGnIJ82TK4aWAvZ_LXe10mkMvKrzLj-ANSCPrgtH1cY', 
         },
@@ -70,7 +70,7 @@ const App = () => {
       {loading && <LoaderComponent />}
       {error && <ErrorMessage message={error} />}
       {images.length > 0 && <ImageGallery images={images} onImageClick={handleImageClick} />}
-      {!loading && error === '' && <LoadMoreBtn onClick={handleLoadMore} hasMoreImages={true} />}
+      {!loading && images.length > 0 && <LoadMoreBtn onClick={handleLoadMore} />}
       {isModalOpen && selectedImage && (
         <ImageModal 
           isOpen={isModalOpen} 
