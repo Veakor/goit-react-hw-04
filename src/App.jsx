@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import  { useState, useEffect } from 'react';
 import axios from 'axios';
 import SearchBar from './components/SearchBar/SearchBar';
 import ImageGallery from './components/ImageGallery/ImageGallery';
@@ -13,9 +13,11 @@ const App = () => {
   const [error, setError] = useState('');
   const [selectedImage, setSelectedImage] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
+  const [searchTerm, setSearchTerm] = useState('');
+  const [page, setPage] = useState(1);
 
-  const handleSubmit = async (searchTerm) => {
+
+  const fetchImages = async () => {
     try {
       setLoading(true);
       const response = await axios.get(`https://api.unsplash.com/search/photos?query=${searchTerm}`, {
@@ -25,9 +27,7 @@ const App = () => {
       });
       
 
-    console.log('Response data:', response.data);
-
-      setImages(response.data.results);
+      setImages(prevImages => [...prevImages, ...response.data.results]);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching images:', error);
@@ -35,8 +35,18 @@ const App = () => {
       setLoading(false);
     }
   };
+   
+  useEffect(() => {
+    if (searchTerm !== '') {
+      fetchImages();
+    }
+  }, [searchTerm, page]);
 
-
+  const handleSubmit = (term) => {
+    setSearchTerm(term);
+    setPage(1);
+    setImages([]);
+  }
 
   const handleImageClick = (imageUrl, alt) => {
     setSelectedImage({ imageUrl, alt });
@@ -60,7 +70,7 @@ const App = () => {
       {loading && <LoaderComponent />}
       {error && <ErrorMessage message={error} />}
       {images.length > 0 && <ImageGallery images={images} onImageClick={handleImageClick} />}
-      <LoadMoreBtn onClick={handleLoadMore} hasMoreImages={images.length > 0} />
+      {images.length > 0 && <LoadMoreBtn onClick={handleLoadMore} />}
       {isModalOpen && selectedImage && (
         <ImageModal 
           isOpen={isModalOpen} 
