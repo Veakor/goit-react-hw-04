@@ -70,7 +70,7 @@ const App = () => {
       {loading && <LoaderComponent />}
       {error && <ErrorMessage message={error} />}
       {images.length > 0 && <ImageGallery images={images} onImageClick={handleImageClick} />}
-      {images.length > 0 && <LoadMoreBtn onClick={handleLoadMore} />}
+      {!loading && error === '' && <LoadMoreBtn onClick={handleLoadMore} hasMoreImages={true} />}
       {isModalOpen && selectedImage && (
         <ImageModal 
           isOpen={isModalOpen} 
