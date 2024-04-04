@@ -1,10 +1,6 @@
 import style from './LoadMoreBtn.module.css';
 
-const LoadMoreBtn = ({ onClick, hasMoreImages }) => {
-
-    if (!hasMoreImages) {
-        return null; 
-    }
+const LoadMoreBtn = ({ onClick }) => {
 
     return (
         <button className={style.loadMoreButton} onClick={onClick}>Load more</button>
